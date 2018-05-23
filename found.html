@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+</head>
+<body>
+	 <nav class=" blue-grey darken-1">
+		 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+	</nav>
+	 <ul id="slide-out" class="sidenav">
+      <li><a href="lost.html">Утеряно</a></li>
+      <li><a href="found.html">Найдено</a></li>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="addItem.html" class="btn">Подать объявление</a></li>
+      <li class="archive"><a href="archive.html" class="btn">Ваши объявления</a></li>
+    </ul>
+   
+    <div class="container">
+    	<h4>Найденные вещи</h4>
+    </div>
+	 <script type="text/javascript" src="cordova.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	 <script>
+	 	 var elem = document.querySelector('.sidenav');
+		  $(document).ready(function(){
+		    $('.sidenav').sidenav();
+
+		    $.ajax({
+		    	url:"http://192.168.1.33:8000/found",
+		    	success:function(arg){
+		    	
+		    		for(var i=0;i<arg.length;i++){
+		    			var divRow = document.createElement("div");
+		    			document.body.appendChild(divRow);
+		    			divRow.classList.add("row");
+		    			var divS12 = document.createElement("div");
+		    			divRow.appendChild(divS12);
+		    			divS12.classList.add("col","s12");
+		    			divCard = document.createElement("div");
+		    			divS12.appendChild(divCard);
+		    			divCard.classList.add("card","blue-grey","darken-1");
+		    			var divCardContent =  document.createElement("div");
+		    			divCard.appendChild(divCardContent);
+		    			divCardContent.classList.add("card-content","white-text");
+		    			span = document.createElement("span");
+		    			divCardContent.appendChild(span);
+		    			span.classList.add("card-title");
+		    			span.innerHTML = arg[i].title;
+
+		    			var img = document.createElement("img");
+		    			divCardContent.appendChild(img);
+		    			img.src = "http://192.168.1.33:8000"+arg[i].image;
+
+		    			var p = document.createElement("div");
+		    			divCardContent.appendChild(p);
+		    			p.innerHTML = arg[i].description;
+
+		    			var divCardAction = document.createElement("div");
+		    			divCard.appendChild(divCardAction);
+		    			divCardAction.classList.add("card-action");
+		    			var contact = document.createElement("p");
+		    			divCardAction.appendChild(contact);
+		    			contact.innerHTML = "Связаться: " +arg[i].contact;
+
+		    				var date = document.createElement("p");
+		    			divCardAction.appendChild(date);
+		    			date.classList.add("white-text");
+		    			date.innerHTML = arg[i].created_at.toString();
+
+		    		} 
+		    	}
+		    });
+		});
+	 </script>
+</body>
+</html>
